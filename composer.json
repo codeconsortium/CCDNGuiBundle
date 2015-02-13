@@ -1,0 +1,25 @@
+{
+    "name":         "codeconsortium/ccdn-gui-bundle",
+    "description":  "This bundle provides a means to generate Twig renderable UI's from your own custom services",
+    "keywords":     ["gui", "menu"],
+    "type":         "symfony-bundle",
+    "license":      "MIT",
+    "authors":      [
+        {
+            "name":     "CodeConsortium",
+            "homepage": "http://github.com/codeconsortium"
+        },
+        {
+            "name":     "Reece Fowell",
+            "homepage": "http://www.reecefowell.com"
+        }
+    ],
+    "require":      {
+        "symfony/framework-bundle": "~2.0"
+    },
+    "autoload":     {
+        "psr-0": { "CCDN\\GuiBundle": "" }
+    },
+    "target-dir": "CCDN/GuiBundle",
+    "minimum-stability": "dev"
+}
