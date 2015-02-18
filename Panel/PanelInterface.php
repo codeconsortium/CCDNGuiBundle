@@ -12,7 +12,4 @@ namespace CCDN\GuiBundle\Panel;
  */
 interface PanelInterface
 {
-    public function getName();
-
-    public function is();
 }

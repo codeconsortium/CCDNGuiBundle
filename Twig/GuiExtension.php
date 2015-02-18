@@ -1,17 +1,9 @@
 <?php
 namespace CCDN\GuiBundle\Twig;
 
-use CCDN\GuiBundle\Chain\PanelChain;
-use JMS\DiExtraBundle\Annotation\Inject;
-use JMS\DiExtraBundle\Annotation\InjectParams;
-use JMS\DiExtraBundle\Annotation\Service;
-use JMS\DiExtraBundle\Annotation\Tag;
 use CCDN\GuiBundle\Renderer\TwigRenderer;
 
 /**
- * @Service("gui_extension")
- * @Tag("twig.extension")
- *
  * @category CCDN
  * @package  GuiBundle
  *
@@ -28,50 +20,30 @@ class GuiExtension extends \Twig_Extension
     protected $renderer;
 
     /**
-     * @var PanelChain
-     */
-    protected $panelChain;
-
-    /**
-     * @InjectParams({
-     *     "twigRenderer" = @Inject("ccdn_gui_twig_renderer")
-     * })
-     *
      * @param TwigRenderer $twigRenderer
-     * @param PanelChain $panelChain
      */
-    public function __construct(TwigRenderer $twigRenderer, PanelChain $panelChain)
+    public function __construct(TwigRenderer $twigRenderer)
     {
         $this->renderer = $twigRenderer;
-        $this->panelChain = $panelChain;
-
     }
 
     public function getFunctions()
     {
         return array(
-            'ccdn_gui_render' => new \Twig_Function_Method($this, 'render'),
+            'ccdn_gui_render' => new \Twig_Function_Method($this, 'render', ['is_safe' => ['html']]),
         );
     }
 
     /**
-     * Renders a menu with the specified renderer.
-     *
-     * @param ItemInterface|string|array $menu
-     * @param array                      $options
-     * @param string                     $renderer
+     * @param string $panelName
+     * @param array $options
+     * @param string $renderer
      *
      * @return string
      */
-    public function render($menu, array $options = array(), $renderer = null)
+    public function render($panelName, array $options = [], $renderer = null)
     {
-        $this->panelChain->hasPanel($menu);
-        var_dump([
-            $menu,
-            $options,
-            $renderer
-        ]);die;
-        //return $this->helper->render($menu, $options, $renderer);
+        return $this->renderer->render($panelName, $options);
     }
 
     /**

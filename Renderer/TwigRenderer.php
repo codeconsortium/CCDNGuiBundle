@@ -1,16 +1,9 @@
 <?php
 namespace CCDN\GuiBundle\Renderer;
 
-use JMS\DiExtraBundle\Annotation\Inject;
-use JMS\DiExtraBundle\Annotation\InjectParams;
-use JMS\DiExtraBundle\Annotation\Service;
-
-//<tag name="knp_menu.renderer" alias="twig" />
-//            <argument type="service" id="twig" />
+use CCDN\GuiBundle\Provider\PanelProvider;
 
 /**
- * @Service("ccdn_gui_twig_renderer")
- *
  * @category CCDN
  * @package  GuiBundle
  *
@@ -25,20 +18,32 @@ class TwigRenderer
      * @var \Twig_Environment
      */
     private $environment;
-    private $matcher;
-    private $defaultOptions;
 
     /**
-     * @InjectParams({
-     *      "environment" = @Inject("twig")
-     * })
-     * @param \Twig_Environment $environment
-     * @param string            $template
-     * @param MatcherInterface  $matcher
-     * @param array             $defaultOptions
+     * @var PanelProvider
      */
-    public function __construct(\Twig_Environment $environment/*, $template, MatcherInterface $matcher, array $defaultOptions = array()*/)
+    private $panelProvider;
+
+    /**
+     * @param \Twig_Environment $environment
+     * @param PanelProvider $panelProvider
+     */
+    public function __construct(\Twig_Environment $environment, PanelProvider $panelProvider)
     {
         $this->environment = $environment;
+        $this->panelProvider = $panelProvider;
+    }
+
+    /**
+     * @param string $gui
+     * @param array $options
+     * @param null $rendererTemplate
+     * @return string
+     */
+    public function render($gui, array $options = [], $rendererTemplate = null)
+    {
+        $nodes = $this->panelProvider->getPanel($gui);
+
+        return $this->environment->render($options['template'], ['root' => $nodes, 'options' => $options]);
     }
 }

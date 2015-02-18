@@ -1,0 +1,40 @@
+services:
+    ccdn_gui.type_factory_chain:
+        class: CCDN\GuiBundle\Chain\TypeFactoryChain
+
+    ccdn_gui.panel_chain:
+        class: CCDN\GuiBundle\Chain\PanelChain
+
+    ccdn_gui.default_type_factory:
+        class: CCDN\GuiBundle\Factory\DefaultTypeFactory
+        arguments:
+            - @translator
+        tags:
+            - { name: "ccdn_gui.type_factory" }
+
+    ccdn_gui.factory:
+        class: CCDN\GuiBundle\Factory\GuiFactory
+        arguments:
+            - @ccdn_gui.type_factory_chain
+
+    ccdn_gui.panel_factory:
+        class: CCDN\GuiBundle\Factory\PanelFactory
+
+    ccdn_gui.panel_provider:
+        class: CCDN\GuiBundle\Provider\PanelProvider
+        arguments:
+            - @service_container
+            - []
+
+    ccdn_gui.twig_renderer:
+        class: CCDN\GuiBundle\Renderer\TwigRenderer
+        arguments:
+            - @twig
+            - @ccdn_gui.panel_provider
+
+    ccdn_gui.twig_extension:
+        class: CCDN\GuiBundle\Twig\GuiExtension
+        arguments:
+            - @ccdn_gui.twig_renderer
+        tags:
+            - { name: "twig.extension" }

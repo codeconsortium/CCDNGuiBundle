@@ -5,16 +5,9 @@ use CCDN\GuiBundle\Type\Link;
 use CCDN\GuiBundle\Type\SidebarList;
 use CCDN\GuiBundle\Type\SidebarListHeading;
 use CCDN\GuiBundle\Type\SidebarListSubMenu;
-use JMS\DiExtraBundle\Annotation\Inject;
-use JMS\DiExtraBundle\Annotation\InjectParams;
-use JMS\DiExtraBundle\Annotation\Service;
-use JMS\DiExtraBundle\Annotation\Tag;
 use Symfony\Component\Translation\TranslatorInterface;
 
 /**
- * @Service("ccdn_gui.default_type_factory")
- * @Tag("ccdn_gui.type_factory")
- *
  * @category CCDN
  * @package  GuiBundle
  *
@@ -36,10 +29,6 @@ class DefaultTypeFactory implements TypeFactoryInterface
     protected $type = [];
 
     /**
-     * @InjectParams({
-     *      "translator" = @Inject("translator")
-     * })
-     *
      * @param TranslatorInterface $translator
      */
     public function __construct(TranslatorInterface $translator)
@@ -48,15 +37,8 @@ class DefaultTypeFactory implements TypeFactoryInterface
 
         $types = [Link::class, SidebarList::class, SidebarListHeading::class, SidebarListSubMenu::class];
         foreach ($types as $type) {
-            $this->type[strtolower($type::getType())] = $type::class;
+            $this->type[strtolower($type::getType())] = $type;
         }
-
-//        $this->type = [
-//            Link::getType() => Link::class,
-//            SidebarList::getType() => SidebarList::class,
-//            SidebarListHeading::getType() => SidebarListHeading::class,
-//            SidebarListSubMenu::getType() => SidebarListSubMenu::class,
-//        ];
     }
 
     /**

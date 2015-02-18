@@ -1,14 +1,10 @@
 <?php
-namespace CCDN\GuiBundle\Chain;
+namespace CCDN\GuiBundle\Provider;
 
 use CCDN\GuiBundle\Panel\PanelInterface;
-use JMS\DiExtraBundle\Annotation\Service;
-use JMS\DiExtraBundle\Annotation\Tag;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
- * @Service("ccdn_gui.panel_chain")
- * @Tag("twig.extension")
- *
  * @category CCDN
  * @package  GuiBundle
  *
@@ -17,27 +13,35 @@ use JMS\DiExtraBundle\Annotation\Tag;
  * @version  Release: 1.0
  * @link     https://github.com/codeconsortium/CCDNGuiBundle
  */
-class PanelChain
+class PanelProvider
 {
+    /**
+     * @var ContainerInterface
+     */
+    protected $container;
+
     /**
      * @var PanelInterface[]
      */
     protected $panel;
 
     /**
+     * @param ContainerInterface $container
      * @param PanelInterface[] $panel
      */
-    public function __construct(array $panel = [])
+    public function __construct(ContainerInterface $container, array $panel = [])
     {
+        $this->container = $container;
         $this->panel = $panel;
     }
 
     /**
      * @param PanelInterface $panel
+     * @param string $name
      */
-    public function addPanel(PanelInterface $panel)
+    public function addPanel(PanelInterface $panel, $name)
     {
-        $this->panel[strtolower($panel->getName())] = $panel;
+        $this->panel[strtolower($name)] = $panel;
     }
 
     /**
@@ -60,6 +64,6 @@ class PanelChain
             throw new \Exception('Requested Panel does not exist!');
         }
 
-        return $this->panel[strtolower($panelName)];
+        return $this->container->get($this->panel[strtolower($panelName)]);
     }
 }

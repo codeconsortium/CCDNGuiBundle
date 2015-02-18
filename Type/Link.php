@@ -35,6 +35,16 @@ class Link extends AbstractType implements TypeInterface
     protected $label;
 
     /**
+     * @var bool
+     */
+    protected $active = false;
+
+    /**
+     * @var string
+     */
+    protected $icon;
+
+    /**
      * @return string
      */
     public function getRoute()
@@ -106,6 +116,44 @@ class Link extends AbstractType implements TypeInterface
     public function setLabel($label)
     {
         $this->label = $label;
+
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isActive()
+    {
+        return $this->active;
+    }
+
+    /**
+     * @param bool $active
+     * @return static
+     */
+    public function setActive($active)
+    {
+        $this->active = $active;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getIcon()
+    {
+        return $this->icon;
+    }
+
+    /**
+     * @param string $icon
+     * @return static
+     */
+    public function setIcon($icon)
+    {
+        $this->icon = $icon;
 
         return $this;
     }

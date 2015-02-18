@@ -3,14 +3,9 @@ namespace CCDN\GuiBundle\Factory;
 
 use CCDN\GuiBundle\Chain\TypeFactoryChain;
 use CCDN\GuiBundle\Type\SidebarList;
-use CCDN\GuiBundle\Type\SidebarListSubMenu;
 use CCDN\GuiBundle\Type\TypeInterface;
-use JMS\DiExtraBundle\Annotation\InjectParams;
-use JMS\DiExtraBundle\Annotation\Service;
 
 /**
- * @Service("ccdn_gui.factory")
- *
  * @category CCDN
  * @package  GuiBundle
  *
@@ -27,8 +22,6 @@ class GuiFactory
     protected $typeFactoryChain;
 
     /**
-     * @InjectParams
-     *
      * @param TypeFactoryChain $typeFactoryChain
      */
     public function __construct(TypeFactoryChain $typeFactoryChain)
@@ -53,7 +46,7 @@ class GuiFactory
     public function createSidebarList(array $cssClasses = [])
     {
         return $this
-            ->create(SidebarListSubMenu::getType())
+            ->create(SidebarList::getType())
             ->setCssClasses($cssClasses)
         ;
     }
