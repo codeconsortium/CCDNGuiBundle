@@ -87,7 +87,7 @@ class Link extends AbstractType implements TypeInterface
      */
     public function getUrl()
     {
-        return $this->url;
+        return $this->url ?: '#';
     }
 
     /**
